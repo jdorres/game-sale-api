@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  game-sale-api: 
+    container_name: game-sale-api
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      -  local_net
+  game-sale-server:
+    container_name: game-sale-server
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "10081:80"
+    volumes:
+      - "./:/var/www"
+      - "./docker/nginx:/etc/nginx/conf.d/"
+    networks:
+      - local_net
+  game-sale-db:
+    container_name:  game-sale-db
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_DB=game_sale
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql/data
+    ports: 
+      - 8083:5432
+    networks:
+      - local_net
+networks:
+  local_net:
+    driver: bridge
