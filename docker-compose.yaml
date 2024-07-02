@@ -10,6 +10,18 @@ services:
       - ./:/var/www
     networks:
       -  local_net
+  game-sale-db:
+    container_name: game_sale_db
+    image: postgres:16.3-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=game_sale
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports: 
+      - 8083:5432
+    networks:
+      - local_net
   game-sale-server:
     container_name: game-sale-server
     image: nginx:alpine
@@ -19,20 +31,6 @@ services:
     volumes:
       - "./:/var/www"
       - "./docker/nginx:/etc/nginx/conf.d/"
-    networks:
-      - local_net
-  game-sale-db:
-    container_name:  game-sale-db
-    image: postgres:16
-    restart: always
-    environment:
-      - POSTGRES_DB=game_sale
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-    volumes:
-      - ./docker/postgres:/var/lib/postgresql/data
-    ports: 
-      - 8083:5432
     networks:
       - local_net
 networks:

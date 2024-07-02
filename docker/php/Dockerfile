@@ -8,6 +8,11 @@ RUN apt update && apt install -y \
     libonig-dev \
     libxml2-dev
 
+# Install Postgre PDO
+RUN apt-get install -y libpq-dev \
+&& docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+&& docker-php-ext-install pdo pdo_pgsql pgsql
+
 RUN apt clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
