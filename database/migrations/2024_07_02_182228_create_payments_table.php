@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('payment_method_id');
             $table->foreign('payment_method_id')->references('id')->on('payment_methods');
+            $table->unsignedBigInteger('purchase_id');
+            $table->foreign('purchase_id')->references('id')->on('purchases');
             $table->float('amount');
             $table->date('due_date');
             $table->date('payment_date')->nullable();
