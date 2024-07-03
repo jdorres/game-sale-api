@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GameStoreRequest;
+use App\Http\Requests\GameUpdateRequest;
+use App\Http\Resources\GameResource;
 use App\Models\Game;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class GameController extends Controller
 {
@@ -12,47 +17,48 @@ class GameController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $games = Game::all();
+        return response()->json(GameResource::collection($games), Response::HTTP_CREATED);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(GameStoreRequest $request)
     {
-        //
+        try{
+            $data = $request->validated();
+            $data['code'] = Str::random(25);
+            $game = Game::create($data);
+            return response()->json(new GameResource($game), Response::HTTP_CREATED);
+        }catch(Exception $e){
+            //TODO
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id){
-        $game = Game::where('id', $id)->get();
-        return $game;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function show(int $id){
+        $game = Game::findOrFail($id);
+        return response()->json(new GameResource($game), Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(GameUpdateRequest $request, string $id)
     {
-        //
+        try{
+            $data = $request->all();
+            $game = Game::findOrFail($id);
+            $game->update($data);
+            return response()->json($game, Response::HTTP_OK);
+        }catch(Exception $e){
+            //TODO
+            dd($e->getMessage());
+        }
     }
 
     /**
@@ -60,6 +66,7 @@ class GameController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Game::destroy($id);
+        return response()->json([], Response::HTTP_OK);
     }
 }

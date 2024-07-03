@@ -7,9 +7,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -30,7 +28,7 @@ class UserController extends Controller
         try{
             $data = $request->validated();
             $user = User::create($data);
-            response()->json(new UserResource($user), Response::HTTP_CREATED);
+            return response()->json(new UserResource($user), Response::HTTP_CREATED);
         }catch(Exception $e){
             //TODO
             dd($e->getMessage());
