@@ -2,62 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PurchaseStoreRequest;
+use App\Http\Requests\PurchaseUpdateRequest;
+use App\Http\Resources\PurchaseResource;
+use App\Models\Purchase;
+use App\Services\PurchaseService;
+use Exception;
+use Illuminate\Http\Response;
 
 class PurchaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $service;
+
+    public function __construct(PurchaseService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $purchases = Purchase::all();
+        return response()->json(PurchaseResource::collection($purchases), Response::HTTP_CREATED);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(PurchaseStoreRequest $request)
     {
-        //
+        try{
+            $data = $request->all();
+            $purchase = $this->service->store($data);
+            return response()->json(new PurchaseResource($purchase), Response::HTTP_CREATED);
+        }catch(Exception $e){
+            //TODO
+            dd($e->getMessage());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(int $id)
     {
-        //
+        $purchase = Purchase::findOrFail($id);
+        return response()->json(new PurchaseResource($purchase), Response::HTTP_OK);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id){
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(PurchaseUpdateRequest $request, string $id)
     {
-        //
+        try{
+            $data = $request->all();
+            $purchase = Purchase::findOrFail($id);
+            $purchase->update($data);
+            return response()->json($purchase, Response::HTTP_OK);
+        }catch(Exception $e){
+            //TODO
+            dd($e->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        Purchase::destroy($id);
+        return response()->json([], Response::HTTP_OK);
     }
 }

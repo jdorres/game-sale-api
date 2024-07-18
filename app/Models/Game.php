@@ -18,7 +18,8 @@ class Game extends Model
     protected $fillable = [
         'name',
         'code',
-        'genre'
+        'genre',
+        'price',
     ];
 
     /**

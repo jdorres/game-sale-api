@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Purchase extends Model
 {
@@ -16,22 +18,21 @@ class Purchase extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'customer_id'
+        'user_id'
     ];
 
-    /**
-     * The games that belong to the purchase
-     */
-    public function purchases(): BelongsToMany
+    public function games(): BelongsToMany
     {
         return $this->belongsToMany(Game::class, 'purchase_games');
     }
 
-    /**
-     * The payments that belong to the purchase
-     */
-    public function payments(): BelongsToMany
+    public function payments(): HasMany
     {
-        return $this->belongsToMany(Payment::class, 'purchase_payments');
+        return $this->hasMany(Payment::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

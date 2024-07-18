@@ -17,3 +17,9 @@ Route::post('/games', [GameController::class, 'store']);
 Route::get('/games/{id}', [GameController::class, 'show']);
 Route::post('/games/{id}', [GameController::class, 'update']);
 Route::delete('/games/{id}', [GameController::class, 'destroy']);
+
+Route::get('/purchases', [PurchaseController::class, 'index']);
+Route::post('/purchases', [PurchaseController::class, 'store']);
+Route::get('/purchases/{id}', [PurchaseController::class, 'show']);
+Route::post('/purchases/{id}', [PurchaseController::class, 'update']);
+Route::delete('/purchases/{id}', [PurchaseController::class, 'destroy']);
