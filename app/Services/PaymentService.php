@@ -31,7 +31,6 @@ class PaymentService
 
         //payment data
         $paymentData = [
-            'user_id' => $purchase->user->id, //TODO: remover, não deve haver user aqui
             'payment_method_id' => $paymentMethod->id,
             'purchase_id' => $purchase->id,
             'gateway_id' => $gateway->id,
