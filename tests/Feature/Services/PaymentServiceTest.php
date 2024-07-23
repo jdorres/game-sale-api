@@ -13,7 +13,7 @@ use App\Services\PaymentService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-#php artisan test --filter=GameServiceTest
+#php artisan test --filter=PaymentServiceTest
 class PaymentServiceTest extends TestCase
 {
     use RefreshDatabase;

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->boolean('default')->default(false);
+            $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
     }

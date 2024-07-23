@@ -16,7 +16,7 @@ class GatewaySeeder extends Seeder
         Gateway::create([
             'name' => "Asaas",
             'code' => "asaas",
-            'default' => true
+            'is_default' => true
         ]);
     }
 }

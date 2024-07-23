@@ -21,7 +21,7 @@ class GatewayFactory extends Factory
         return [
             'name' => fake()->company,
             'code' => fake()->company,
-            'default' => true
+            'is_default' => true
         ];
     }
 }
