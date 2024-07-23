@@ -19,5 +19,7 @@ class GameService
             $purchase->games()->attach($game->id);
         }
         $purchase->save();
+
+        return $purchase;
     }
 }

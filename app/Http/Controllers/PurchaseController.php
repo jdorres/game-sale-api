@@ -32,7 +32,7 @@ class PurchaseController extends Controller
             $purchase = $this->service->store($data);
             return response()->json(new PurchaseResource($purchase), Response::HTTP_CREATED);
         }catch(Exception $e){
-            //TODO
+            //TODO: Exception
             dd($e->getMessage());
         }
     }
@@ -51,7 +51,7 @@ class PurchaseController extends Controller
             $purchase->update($data);
             return response()->json($purchase, Response::HTTP_OK);
         }catch(Exception $e){
-            //TODO
+            //TODO: Exception
             dd($e->getMessage());
         }
     }

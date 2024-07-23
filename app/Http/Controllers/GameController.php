@@ -32,7 +32,7 @@ class GameController extends Controller
             $game = Game::create($data);
             return response()->json(new GameResource($game), Response::HTTP_CREATED);
         }catch(Exception $e){
-            //TODO
+            //TODO: Exception
             dd($e->getMessage());
         }
     }
@@ -56,7 +56,7 @@ class GameController extends Controller
             $game->update($data);
             return response()->json($game, Response::HTTP_OK);
         }catch(Exception $e){
-            //TODO
+            //TODO: Exception
             dd($e->getMessage());
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Models\Purchase;
 use Carbon\Carbon;
 use Ramsey\Uuid\Type\Integer;
@@ -18,7 +19,7 @@ class PaymentService
         $this->paymentMethodService = $paymentMethodService;
     }
 
-    public function createPaymentByPurchase(Purchase $purchase, $paymentMethod): Payment
+    public function createPaymentByPurchase(Purchase $purchase, $paymentMethodType): Payment
     {
         //calculate value
         $amount = $this->calculatePaymentAmountByPurchase($purchase);
@@ -27,7 +28,7 @@ class PaymentService
         $gateway = $this->gatewayService->getDefaultGateway();
         
         //get payment method id
-        $paymentMethod = $this->paymentMethodService->getMethodIdByType($paymentMethod);
+        $paymentMethod = $this->paymentMethodService->getMethodIdByType($paymentMethodType);
 
         //payment data
         $paymentData = [
@@ -43,7 +44,8 @@ class PaymentService
         return $payment;
     }
 
-    private function calculatePaymentAmountByPurchase(Purchase $purchase): int
+    //TODO: esse método era privado, mudei pra poder testar
+    public function calculatePaymentAmountByPurchase(Purchase $purchase): int
     {
         $price = 0;
         foreach($purchase->games as $game){

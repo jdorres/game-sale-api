@@ -30,7 +30,7 @@ class UserController extends Controller
             $user = User::create($data);
             return response()->json(new UserResource($user), Response::HTTP_CREATED);
         }catch(Exception $e){
-            //TODO
+            //TODO: Exception
             dd($e->getMessage());
         }
     }
@@ -54,7 +54,7 @@ class UserController extends Controller
             $user->update($data);
             return response()->json($user, Response::HTTP_OK);
         }catch(Exception $e){
-            //TODO
+            //TODO: Exception
             dd($e->getMessage());
         }
     }
