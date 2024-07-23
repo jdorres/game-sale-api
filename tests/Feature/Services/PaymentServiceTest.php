@@ -29,7 +29,7 @@ class PaymentServiceTest extends TestCase
     public function testCreatePaymentByPurchase()
     {
         //ARRANGE
-        //cria a puirchase
+        //cria a purchase
         $purchase = Purchase::factory()->create();
         //cria o paymentMethod
         $paymentMethodType = PaymentMethod::factory()->create()->type;
@@ -40,7 +40,10 @@ class PaymentServiceTest extends TestCase
         $payment = $this->paymentService->createPaymentByPurchase($purchase, $paymentMethodType);
         
         //ASSERT
-        //TODO: seria interessante fazer vários asserts em um só método
+        //TODO: seria interessante fazer vários asserts em um só método?
+        //testar se retorna um pagamento?
+        //testar algum campo amount? status? alguma relation?
+        $this->assertInstanceOf(Payment::class, $payment);
     }
 
     public function testCalculatePaymentAmountByPurchase()

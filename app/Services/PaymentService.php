@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Models\Payment;
-use App\Models\PaymentMethod;
 use App\Models\Purchase;
 use Carbon\Carbon;
-use Ramsey\Uuid\Type\Integer;
 
 class PaymentService
 {
