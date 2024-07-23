@@ -24,9 +24,6 @@ class GameServiceTest extends TestCase
 
     public function testLinkGamesToPurchase(): void
     {
-        //TODO: vai usar banco de dados?
-        //TODO: o save deveria estar dentro do método linkGamesToPurchase?
-        
         //ARRANGE
         //instaciar user
         $user = User::factory()->create();
@@ -47,15 +44,11 @@ class GameServiceTest extends TestCase
         
         //ASSERT
         //verifica se o purchase foi retornado com a lista de jogos correta
-
         $this->assertCount(expectedCount: 3, haystack: $returnedPurchase->games);
     }
 
     public function testLinkGamesToPurchaseThrowExceptionWhenGameNotFound(): void
     {
-        //TODO: vai usar banco de dados?
-        //TODO: o save deveria estar dentro do método linkGamesToPurchase?
-        
         //ARRANGE
         //instaciar user
         $user = User::factory()->create();
@@ -68,15 +61,12 @@ class GameServiceTest extends TestCase
 
         //ACT
         //chama o método testado
-
         $testFunction = function() use($purchase, $gameCodes) {
             $this->gameService->linkGamesToPurchase($purchase, $gameCodes);
         };
         
         //ASSERT
         //verifica se o purchase foi retornado com a lista de jogos correta
-
         $this->assertThrows($testFunction, Exception::class, 'Game not found!');
-
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            //TODO: user_id
             $table->timestamps();
             $table->softDeletes();
         });
