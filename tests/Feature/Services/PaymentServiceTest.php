@@ -7,6 +7,7 @@ use App\Models\Gateway;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\Purchase;
+use App\Models\User;
 use App\Services\GatewayService;
 use App\Services\PaymentMethodService;
 use App\Services\PaymentService;
@@ -29,11 +30,9 @@ class PaymentServiceTest extends TestCase
     public function testCreatePaymentByPurchase()
     {
         //ARRANGE
-        //cria a purchase
+        User::factory()->create();
         $purchase = Purchase::factory()->create();
-        //cria o paymentMethod
         $paymentMethodType = PaymentMethod::factory()->create()->type;
-        //criar um gateway padrão
         Gateway::factory()->create();
 
         //ACT
@@ -49,12 +48,10 @@ class PaymentServiceTest extends TestCase
     public function testCalculatePaymentAmountByPurchase()
     {
         //ARRANGE
-        //criar purchase
+        User::factory()->create();
         $purchase = Purchase::factory()->create();
         
-        //criar os jogos e ligar ao purchase
         $priceToAssert = 0;
-
         $game = Game::factory()->create();
         $priceToAssert += $game->price;
         $purchase->games()->attach($game);
