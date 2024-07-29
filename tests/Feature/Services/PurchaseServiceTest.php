@@ -58,6 +58,5 @@ class PurchaseServiceTest extends TestCase
         //verificar se a purchase está vinculada aos jogos?
         $this->assertInstanceOf(Purchase::class, $purchase);
         $this->assertCount(expectedCount: 2, haystack: $purchase->games);
-
     }
 }

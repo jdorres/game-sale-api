@@ -19,6 +19,7 @@ class GameResource extends JsonResource
             'code'       => $this->code,
             'name'       => $this->name,
             'genre'      => $this->genre,
+            'price'      => $this->price,
             'created_at' => $this->created_at->format("d/m/Y")
         ];
     }

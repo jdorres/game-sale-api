@@ -18,7 +18,7 @@ class GameController extends Controller
     public function index()
     {
         $games = Game::all();
-        return response()->json(GameResource::collection($games), Response::HTTP_CREATED);
+        return response()->json(GameResource::collection($games), Response::HTTP_OK);
     }
 
     /**
