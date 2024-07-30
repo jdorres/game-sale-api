@@ -22,8 +22,8 @@ class PurchaseUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|string',
-            'games' => 'required|array'
+            'user_id' => 'nullable|integer',
+            'games' => 'nullable|array'
         ];
     }
 }

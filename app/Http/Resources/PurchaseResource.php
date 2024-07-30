@@ -18,9 +18,9 @@ class PurchaseResource extends JsonResource
         return [
             'id'         => $this->id,
             'user'       => new UserResource($this->user),
-            'created_at' => $this->created_at->format("d/m/Y"),
             'games'      => GameResource::collection($this->games),
-            'payments'   => PaymentResource::collection($this->payments)
+            'payments'   => PaymentResource::collection($this->payments),
+            'created_at' => $this->created_at->format("d/m/Y")
         ];
     }
 }

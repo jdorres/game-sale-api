@@ -22,7 +22,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases = Purchase::all();
-        return response()->json(PurchaseResource::collection($purchases), Response::HTTP_CREATED);
+        return response()->json(PurchaseResource::collection($purchases), Response::HTTP_OK);
     }
 
     public function store(PurchaseStoreRequest $request)
