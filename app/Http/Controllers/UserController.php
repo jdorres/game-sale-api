@@ -6,30 +6,40 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\UserService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        $users = User::all();
+        $users = $this->userService->getAllUsers();
         return response()->json(UserResource::collection($users), Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserStoreRequest $request)
+    public function store(UserStoreRequest $request): JsonResponse
     {
-        try{
+        try {
             $data = $request->validated();
-            $user = User::create($data);
+            $user = $this->userService->createUser($data);
             return response()->json(new UserResource($user), Response::HTTP_CREATED);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             //TODO: Exception
             dd($e->getMessage());
         }
@@ -38,7 +48,8 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id){
+    public function show(int $id): JsonResponse
+    {
         $user = User::findOrFail($id);
         return response()->json(new UserResource($user), Response::HTTP_OK);
     }
@@ -46,14 +57,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, string $id)
+    public function update(UserUpdateRequest $request, string $id): JsonResponse
     {
-        try{
-            $data = $request->all();
-            $user = User::findOrFail($id);
-            $user->update($data);
+        try {
+            $data = $request->validated();
+            $user = $this->userService->updateUser($id, $data);
             return response()->json($user, Response::HTTP_OK);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             //TODO: Exception
             dd($e->getMessage());
         }
@@ -62,9 +72,13 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
-        User::destroy($id);
-        return response()->json([], Response::HTTP_OK);
+        try {
+            $this->userService->deleteUser($id);
+            return response()->json([], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Falha ao deletar usuário'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
